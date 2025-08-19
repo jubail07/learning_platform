@@ -1,0 +1,48 @@
+.wrapper {
+    width: 100%;
+    height: 100dvh;
+    background-image: url('/signupBG.png');
+    padding: 80px 20px;
+}
+
+
+.signup-container {
+    width: 100%;
+    padding: 30px 20px;
+    background-color: rgba(0, 0, 0, 0.272);
+    color: antiquewhite;
+    border-radius: 5px;
+}
+
+.signup-btn {
+    background-color: #222831;
+    border-radius: 5px;
+    color: aliceblue;
+    font-weight: 500;
+}
+
+.signup-btn:hover {
+    background-color: #393E46;
+    transition: 0.3s ease-in-out;
+}
+
+/* LOGIN  */
+
+.login-wrapper {
+    width: 100%;
+    height: 100dvh;
+    background-color: #222831;
+    background-repeat: no-repeat;
+    padding: 80px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    width: 300px;
+    padding:20px;
+    background-color: #fffefeba;
+    color: #000000;
+    border-radius: 5px;
+}

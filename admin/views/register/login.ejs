@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Learning Platform</title>
+    <link rel="stylesheet" href="/register.css">
+</head>
+
+<body>
+    <div class="wraper">
+        <div class="login-container">
+            <h2>Admin Login</h2>
+            <form action="/admin/login" method="POST">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button class="login-btn" type="submit">Login</button>
+            </form>
+            <div class="footer">
+                Don't have an account? <a href="/admin/signup" style="color:#2563eb;text-decoration:none;">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

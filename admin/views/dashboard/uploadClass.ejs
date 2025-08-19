@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/dashboard.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <%-include('navbar')%>
+            <div class="form-div">
+                <h1>Upload Class to <%=course.course%> </h1>
+                <form class="upload-class-form" id="videoForm" enctype="multipart/form-data"
+                    action="/admin/course/<%= course.course %>" method="post">
+
+                    <!-- <input name="courseId" value="<%= course.course %>" readonly> -->
+
+                    <select name="contentType" class="selecter" required>
+                        <option value="">Select Content Type</option>
+                        <option value="youtube">YouTube Video</option>
+                        <option value="vimeo">Vimeo Video</option>
+                        <option value="pdf">PDF Document</option>
+                    </select>
+
+                    <input class="category" name="classUrl" type="text" placeholder="Enter the URL" required>
+
+                    <input type="file" name="pdfFile" accept="application/pdf" style="display:none;" id="pdfInput">
+
+                    <button type="submit">Upload</button>
+                </form>
+            </div>
+
+            <h3 style="text-align: center; margin-bottom: 10px;">Uploaded Classes</h3>
+            <div class="uploaded-class">
+                <%classes.forEach(i=>{%>
+
+                    <div class="class">
+                        <% if (i.classType==='pdf' ) { %>
+                            <iframe src="<%=i.url%>" frameborder="0"></iframe>
+                            <% } else { %>
+                                <iframe src="<%=i.url%>" frameborder="0"></iframe>
+                                <% } %>
+                                    <form action="/admin/course/<%= course.course %>/delete/<%= i.classId %>"
+                                        method="POST">
+                                        <button type="submit"
+                                            style="background:red;color:white; width: 100%; border: none;">Delete</button>
+                                    </form>
+                    </div>
+
+                    <%})%>
+            </div>
+    </div>
+
+    <script>
+        const contentTypeSelect = document.querySelector('.selecter');
+        const urlInput = document.querySelector('.category');
+        const pdfInput = document.getElementById('pdfInput');
+
+        contentTypeSelect.addEventListener('change', function () {
+            if (this.value === 'pdf') {
+                urlInput.style.display = 'none';
+                pdfInput.style.display = 'block';
+                urlInput.removeAttribute('required');
+                pdfInput.setAttribute('required', 'required');
+            } else {
+                urlInput.style.display = 'block';
+                pdfInput.style.display = 'none';
+                pdfInput.removeAttribute('required');
+                urlInput.setAttribute('required', 'required');
+            }
+        });
+    </script>
+</body>
+
+</html>

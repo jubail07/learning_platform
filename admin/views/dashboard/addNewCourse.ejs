@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add New Course</title>
+    <link rel="stylesheet" href="/dashboard.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <%-include('navbar')%>
+            <div class="form-div">
+                <h1>Add New Course</h1>
+                <form class="form" enctype="multipart/form-data" action="/admin/newCourse" method="POST">
+                    <label for="thumbnail">thumbnail</label>
+                    <input type="file" id="thumbnail" name="thumbnail" accept="image/*" required>
+
+                    <label for="course">Course Title</label>
+                    <input type="text" id="course" name="course" placeholder="Enter course title" required />
+
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="4" placeholder="Course description"
+                        required></textarea>
+
+                    <button type="submit">Add Course</button>
+                </form>
+            </div>
+    </div>
+</body>
+
+</html>
