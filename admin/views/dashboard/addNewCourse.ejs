@@ -10,21 +10,29 @@
 
 <body>
     <div class="wrapper">
-        <%-include('navbar')%>
+        <%- include('navbar') %>
+
             <div class="form-div">
-                <h1>Add New Course</h1>
+                <h1 class="page-title">Add New Course</h1>
+
                 <form class="form" enctype="multipart/form-data" action="/admin/newCourse" method="POST">
-                    <label for="thumbnail">thumbnail</label>
-                    <input type="file" id="thumbnail" name="thumbnail" accept="image/*" required>
+                    <div class="form-group">
+                        <label for="thumbnail">Thumbnail</label>
+                        <input type="file" id="thumbnail" name="thumbnail" accept="image/*" required>
+                    </div>
 
-                    <label for="course">Course Title</label>
-                    <input type="text" id="course" name="course" placeholder="Enter course title" required />
+                    <div class="form-group">
+                        <label for="course">Course Title</label>
+                        <input type="text" id="course" name="course" placeholder="Enter course title" required />
+                    </div>
 
-                    <label for="description">Description</label>
-                    <textarea id="description" name="description" rows="4" placeholder="Course description"
-                        required></textarea>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" rows="4" placeholder="Enter course description"
+                            required></textarea>
+                    </div>
 
-                    <button type="submit">Add Course</button>
+                    <button type="submit" class="submit-btn">Add Course</button>
                 </form>
             </div>
     </div>

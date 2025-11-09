@@ -17,22 +17,45 @@ function Classes() {
                 setClasses(response)
 
                 if (!classId) {
-                    return navigate(`/class/${id}/${response.classUrl[0].classId}`, { replace: true })
+                    return navigate(`/class/${id}/${response.class[0].classId}`, { replace: true })
                 }
 
-                const found = response.classUrl.find(c => c.classId === classId)
+                const found = response.class.find(c => c.classId === classId)
                 if (found) {
                     setSelectedVideo(found)
                 } else {
-                    navigate(`/class/${id}/${response.classUrl[0].classId}`, { replace: true })
+                    navigate(`/class/${id}/${response.class[0].classId}`, { replace: true })
                 }
-                console.log(response)
             } catch (error) {
                 console.log(error, 'error in fetch class')
             }
         }
         fetchclass()
     }, [id, classId, navigate])
+
+    //  Function to mark as learned
+    const markLearned = async (classId, status) => {
+        try {
+            const newLearned = !status
+            const response = await fetch(`http://localhost:3000/user/${id}/learned/${classId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ learned: newLearned })
+            })
+            const data = await response.json()
+
+            if (data.success) {
+                setClasses(prev => ({
+                    ...prev,
+                    class: prev.class.map(c =>
+                        c.classId === classId ? { ...c, learned: newLearned } : c
+                    )
+                }))
+            }
+        } catch (err) {
+            console.error('Error marking as learned:', err)
+        }
+    }
 
     if (!classes || !selectedVideo) {
         return <h2>Loading...</h2>
@@ -42,19 +65,19 @@ function Classes() {
         <>
             <div className="dummy"></div>
             <div className='main-container'>
-                {/* <div className='p-5'>
+                <div className='p-5'>
                     <h1 className="text-center">{classes.course}</h1>
-                    <p className=''>{classes.description}</p>
-                </div> */}
+                    {/* <p className=''>{classes.description}</p> */}
+                </div>
                 <div className="learning-container">
-                    <div className="w-75 d-flex justify-content-center align-items-center">
+                    <div className="w-75 border d-flex justify-content-center align-items-center">
                         {selectedVideo.classType === 'youtube' ? (
-                            <iframe width="640" height="360" frameborder="0" src={selectedVideo.url} referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            <iframe width="640" height="360" frameBorder="0" src={selectedVideo.classUrl} referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
                         ) : selectedVideo.classType === 'vimeo' ? (
-                            <iframe title="vimeo-player" src={selectedVideo.url} width="640" height="360" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" allowfullscreen></iframe>
+                            <iframe title="vimeo-player" src={selectedVideo.classUrl} width="640" height="360" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" allowfullscreen></iframe>
                         ) : selectedVideo.classType === 'pdf' ? (
                             <iframe
-                                src={selectedVideo.url}
+                                src={selectedVideo.classUrl}
                                 width="640"
                                 height="360"
                                 style={{ border: 'none' }}
@@ -63,11 +86,26 @@ function Classes() {
                         ) : null}
                     </div>
                     <div className="video-list">
-                        {classes.classUrl.map((url, i) => (
-                            <div key={url.classId} className='video-thumbnail' onClick={() => navigate(`/class/${id}/${url.classId}`)}
-                            >
-                                <p className='bg-transparent text-dark font-weight-bold'>class {i + 1}</p>
+                        {classes.class.map((url, i) => (
+                            <div key={url.classId} className="d-flex align-items-center justify-content-between mb-2">
+                                <div
+                                    className={`video-thumbnail ${classId === url.classId ? 'active' : ''}`}
+                                    onClick={() => navigate(`/class/${id}/${url.classId}`)}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <span className='bg-transparent text-dark font-weight-bold'>
+                                        Class {i + 1}
+                                    </span>
+                                </div>
+
+                                <button
+                                    onClick={() => markLearned(url.classId, url.learned)}
+                                    className={`learn-toggle ${url.learned ? 'active' : ''}`}
+                                >
+                                    {url.learned && '✓'}
+                                </button>
                             </div>
+
                         ))}
                     </div>
                 </div>

@@ -10,48 +10,59 @@
 
 <body>
     <div class="wrapper">
-        <%-include('navbar')%>
+        <%- include('navbar') %>
+
             <div class="form-div">
-                <h1>Upload Class to <%=course.course%> </h1>
+                <h1 class="page-title">Upload Class to <span>
+                        <%= course.course %>
+                    </span></h1>
+
                 <form class="upload-class-form" id="videoForm" enctype="multipart/form-data"
                     action="/admin/course/<%= course.course %>" method="post">
 
-                    <!-- <input name="courseId" value="<%= course.course %>" readonly> -->
+                    <div class="form-group">
+                        <label for="contentType">Content Type</label>
+                        <select name="contentType" id="contentType" class="selecter" required>
+                            <option value="">Select Content Type</option>
+                            <option value="youtube">YouTube Video</option>
+                            <option value="vimeo">Vimeo Video</option>
+                            <option value="pdf">PDF Document</option>
+                        </select>
+                    </div>
 
-                    <select name="contentType" class="selecter" required>
-                        <option value="">Select Content Type</option>
-                        <option value="youtube">YouTube Video</option>
-                        <option value="vimeo">Vimeo Video</option>
-                        <option value="pdf">PDF Document</option>
-                    </select>
+                    <div class="form-group">
+                        <label for="classUrl">Class URL</label>
+                        <input class="category" name="classUrl" type="text" placeholder="Enter the video or file URL"
+                            required>
+                        <input type="file" name="pdfFile" accept="application/pdf" id="pdfInput" style="display: none;">
+                    </div>
 
-                    <input class="category" name="classUrl" type="text" placeholder="Enter the URL" required>
-
-                    <input type="file" name="pdfFile" accept="application/pdf" style="display:none;" id="pdfInput">
-
-                    <button type="submit">Upload</button>
+                    <button type="submit" class="submit-btn">Upload</button>
                 </form>
             </div>
 
-            <h3 style="text-align: center; margin-bottom: 10px;">Uploaded Classes</h3>
-            <div class="uploaded-class">
-                <%classes.forEach(i=>{%>
+            <section class="uploaded-section">
+                <h3>Uploaded Classes</h3>
 
-                    <div class="class">
-                        <% if (i.classType==='pdf' ) { %>
-                            <iframe src="<%=i.url%>" frameborder="0"></iframe>
-                            <% } else { %>
-                                <iframe src="<%=i.url%>" frameborder="0"></iframe>
-                                <% } %>
+                <% if (classes.length===0) { %>
+                    <p class="no-class">No classes uploaded yet.</p>
+                    <% } else { %>
+                        <div class="uploaded-class">
+                            <% classes.forEach(i=> { %>
+                                <div class="class-card">
+                                    <div class="class-preview">
+                                        <iframe src="<%= i.classUrl %>" frameborder="0" allowfullscreen></iframe>
+                                    </div>
+
                                     <form action="/admin/course/<%= course.course %>/delete/<%= i.classId %>"
                                         method="POST">
-                                        <button type="submit"
-                                            style="background:red;color:white; width: 100%; border: none;">Delete</button>
+                                        <button type="submit" class="delete-btn">Delete</button>
                                     </form>
-                    </div>
-
-                    <%})%>
-            </div>
+                                </div>
+                                <% }) %>
+                        </div>
+                        <% } %>
+            </section>
     </div>
 
     <script>

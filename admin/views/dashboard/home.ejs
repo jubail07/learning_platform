@@ -14,24 +14,33 @@
         <%- include('navbar') %>
 
             <div class="container">
-                <h1>Home</h1>
+                <header class="page-header">
+                    <h1>Admin Dashboard</h1>
+                    <p class="subtitle">Welcome back! Manage your courses and materials efficiently.</p>
+                </header>
 
-                <div class="instruction">
-                    <h3>Instructions for Teachers</h3>
+                <section class="instruction">
+                    <div class="instruction-header">
+                        <h3><i class="fa-solid fa-chalkboard-user"></i> Instructions for Teachers</h3>
+                    </div>
                     <ul>
-                        <li>Navigate to the <strong>Upload Class</strong> section to add your course materials.</li>
-                        <li>Ensure uploaded files are in the correct format (PDF, DOCX, or MP4).</li>
-                        <li>Assign each uploaded class to the correct course and section.</li>
-                        <li>Regularly check for student queries in the Q&A section.</li>
-                        <li>Update or replace outdated materials when necessary.</li>
-                        <li>Maintain professional language and clear instructions in your uploads.</li>
+                        <li><strong>Upload Classes:</strong> Go to the <em>Upload Class</em> section to add new
+                            materials.</li>
+                        <li><strong>File Formats:</strong> Ensure uploads are in PDF, DOCX, or MP4 format.</li>
+                        <li><strong>Organization:</strong> Assign each class to its correct course and section.</li>
+                        <li><strong>Engagement:</strong> Regularly check student questions in the Q&A section.</li>
+                        <li><strong>Updates:</strong> Replace outdated materials promptly.</li>
+                        <li><strong>Professionalism:</strong> Use clear, polite, and structured instructions.</li>
                     </ul>
-                    <p>
-                        If you face any issues, please contact the admin through the support page.
+                    <p class="support-note">
+                        Need help? <a href="/support" class="support-link">Contact admin support</a>.
                     </p>
-                </div>
+                </section>
             </div>
     </div>
+
+    <script src="https://kit.fontawesome.com/a2e0e6d58d.js" crossorigin="anonymous"></script>
+</body>
 
 </body>
 

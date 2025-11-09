@@ -46,22 +46,27 @@ body {
 }
 
 /* --- Carousel Height --- */
-.carousel-img {
-    width: 100%;
-    height: 490px;
+.top_cover_img {
+    width: 80%;
+    height: 450px;
     background-size: cover;
     padding: 0px 10px;
 }
 
 /* --- Course Section --- */
 
+#course-section{
+    /* background-color: #6C63FF; */
+}
+
 .course-card {
-    /* border-radius: 16px; */
-    width: 280px;
-    height: 280px;
+    border-radius: 16px;
+    width: 250px;
+    height: 300px;
+    margin-bottom: 12px;
     display: flex;
     flex-direction: column;
-    /* background: white; */
+    background: white;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     overflow-y: hidden;
@@ -84,15 +89,34 @@ body {
     font-size: 14px;
     color: #4B5563;
     font-family: "Montserrat", sans-serif;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    /* Show only 3 lines */
+    -webkit-box-orient: vertical;
 }
 
-.course-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+.progress-container {
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00c853, #64dd17);
+    border-radius: 5px;
+    transition: width 0.5s ease-in-out;
 }
 
 .video-thumbnail {
-    border: 1px solid #E5E7EB;
+    padding: 8px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.2s ease;
 }
 
 /* --- Classes Page --- */
@@ -122,26 +146,109 @@ body {
     border-left: 1px solid #E5E7EB;
 }
 
+.video-thumbnail.active {
+    background-color: #007bff;
+}
+
+.video-thumbnail span {
+    font-weight: bold;
+}
+
+.video-thumbnail span .learned-icon {
+    color: green;
+    font-weight: bold;
+}
+
+.learn-toggle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid black;
+    background-color: white;
+    color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.learn-toggle.active {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+}
+
+
 /* --- Footer --- */
 .footer {
-    background: #1F2937;
-    color: white;
-    padding-top: 40px;
+    background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+    color: #E5E7EB;
     font-family: "Montserrat", sans-serif;
+    position: relative;
+    z-index: 1;
 }
 
-.footer h5 {
+.footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("https://www.transparenttextures.com/patterns/black-linen.png");
+    opacity: 0.1;
+    z-index: -1;
+}
+
+.footer-title {
     color: #FF6584;
-    margin-bottom: 15px;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
 }
 
-.footer a {
+.footer-desc {
+    font-size: 14px;
+    color: #D1D5DB;
+    line-height: 1.7;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
     color: #D1D5DB;
     text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: 500;
 }
 
-.footer a:hover {
-    color: white;
+.footer-links a:hover {
+    color: #FF6584;
+}
+
+.footer-social {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.social-icon {
+    font-size: 22px;
+    color: #D1D5DB;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    color: #FF6584;
+    transform: translateY(-4px);
+}
+
+.footer-bottom {
+    color: #9CA3AF;
+    font-size: 14px;
 }
 
 /* --- Buttons (NEW) --- */
@@ -192,6 +299,11 @@ body {
         height: 64px;
     }
 
+    .top_cover_img {
+        width: 100%;
+        height: 250px;
+    }
+
     .course-card {
         width: 100%;
         min-height: auto;
@@ -216,14 +328,14 @@ body {
         gap: 10px;
     }
 
-    .footer .row {
-        flex-direction: column;
-        text-align: center;
+    .footer {
+        text-align: left;
     }
 
-    .footer .col-md-4 {
-        margin-bottom: 20px;
+    .footer-social {
+        justify-content: left;
     }
+
 
     .video-thumbnail {
         flex: 1 1 100%;

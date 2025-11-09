@@ -10,17 +10,31 @@
 
 <body>
     <div class="wrapper">
-        <%-include('navbar')%>
+        <%- include('navbar') %>
+
             <div class="course-container">
-                <h1>Courses</h1>
-                <%course.forEach(i=>{%>
-                    <div class="course">
-                        <h4>
-                            <%=i.course%>
-                        </h4>
-                        <a href="/admin/course/<%= i.course%>">View</a>
-                    </div>
-                    <%})%>
+                <h1 class="page-title">Courses</h1>
+
+                <% if (course.length===0) { %>
+                    <p class="no-course">No courses added yet. Start by adding a new course.</p>
+                    <% } else { %>
+                        <div class="courses-grid">
+                            <% course.forEach(i=> { %>
+                                <div class="course-card">
+                                    <div class="course-info">
+                                        <h4>
+                                            <%= i.course %>
+                                        </h4>
+                                        <p class="desc">
+                                            <%= i.description ? i.description.substring(0, 80) + '...'
+                                                : 'No description available.' %>
+                                        </p>
+                                    </div>
+                                    <a href="/admin/course/<%= i.course %>" class="view-btn">View</a>
+                                </div>
+                                <% }) %>
+                        </div>
+                        <% } %>
             </div>
     </div>
 </body>

@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { Home, getClasses, logout, contact } = require('../controller/dashboard')
+const { Home, getClasses, logout, contact, markLearned,  } = require('../controller/dashboard')
 const { ifUserLoggedIn } = require('../middleware/userVerifier')
 
 
@@ -19,6 +19,10 @@ router
 router
     .route('/:id')
     .get(getClasses)
+
+router
+    .route('/:id/learned/:classId')
+    .put(markLearned)
 
 
 

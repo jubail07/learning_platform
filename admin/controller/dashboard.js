@@ -14,7 +14,11 @@ exports.getUploadClass = async (req, res) => {
     try {
         const courseName = req.params.courseName
         const course = await Course.findOne({ course: courseName })
-        return res.render('dashboard/uploadClass', { course, classes: course.classUrl || [] })
+        if (!course) {
+            return res.status(404).send('Course not found');
+        }
+
+        return res.render('dashboard/uploadClass', { course, classes: course.class})
     } catch (error) {
         console.log(error, 'error in get upload class')
     }
@@ -22,11 +26,14 @@ exports.getUploadClass = async (req, res) => {
 
 exports.uploadClass = async (req, res) => {
     try {
-        const { classUrl, contentType } = req.body
+        const { classUrl, contentType, sectionId } = req.body
         const courseName = req.params.courseName
 
         const classes = await Course.findOne({ course: courseName })
-        let embedUrls = []
+        if (!classes) return res.status(404).send('Course not found')
+
+        let newClass = []
+
         // Convert to embed format
         if (contentType === 'youtube' || contentType === 'vimeo') {
             const convertToEmbed = (url) => {
@@ -39,14 +46,14 @@ exports.uploadClass = async (req, res) => {
                 return url // assume already correct format
             }
             const urls = Array.isArray(classUrl) ? classUrl : [classUrl]
-            embedUrls.push(
-                ...urls.map(url => ({
-                    url: convertToEmbed(url),
-                    classType: contentType,
-                    classId: Date.now()
-                }))
-            )
+            newClasses = urls.map(url => ({
+                classUrl: convertToEmbed(url),
+                classType: contentType,
+                classId: Date.now(),
+                learned: false
+            }));
         }
+
         // If uploading a PDF file
         if (contentType === 'pdf' && req.files.pdfFile) {
             const pdfFile = req.files.pdfFile
@@ -55,13 +62,15 @@ exports.uploadClass = async (req, res) => {
                 folder: 'course_materials',
             });
 
-            embedUrls.push({
-                url: uploaded.secure_url,
+            newClasses.push({
+                classUrl: uploaded.secure_url,
                 classType: 'pdf',
-                classId: Date.now()
+                classId: Date.now(),
+                learned: false
             });
         }
-        classes.classUrl.push(...embedUrls)
+
+        classes.class.push(...newClasses)
         await classes.save()
         return res.redirect(`/admin/course/${courseName}`)
     } catch (error) {
@@ -114,7 +123,7 @@ exports.deleteClass = async (req, res) => {
     try {
         await Course.findOneAndUpdate(
             { course: req.params.courseName },
-            { $pull: { classUrl: { classId: req.params.classId } } },
+            { $pull: { class: { classId: req.params.classId } } },
         )
         return res.redirect(`/admin/course/${req.params.courseName}`)
     } catch (error) {

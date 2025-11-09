@@ -5,7 +5,7 @@ exports.Home = async (req, res) => {
     try {
         const courses = await Course.find()
         const username = req.user.username
-        return res.json({courses, username })
+        return res.json({ courses, username })
     } catch (error) {
         console.log(error, 'error in user home')
     }
@@ -14,10 +14,28 @@ exports.Home = async (req, res) => {
 exports.getClasses = async (req, res) => {
     try {
         const classes = await Course.findOne({ id: req.params.id })
-        console.log(classes)
         return res.json(classes)
     } catch (error) {
         console.log(error, 'error in user classes')
+    }
+}
+
+exports.markLearned = async (req, res) => {
+    try {
+        const { id, classId } = req.params
+        const { learned } = req.body
+
+        const course = await Course.findOne({ id })
+        if (!course) return res.status(404).json({ message: "Course not found" })
+
+        const classFound = course.class.find(c => c.classId === classId)
+        if (!classFound) return res.status(404).json({ message: "Class not found" })
+
+        classFound.learned = learned
+        await course.save()
+        return res.json({ success: true, message: learned ? "Marked as watched" : "Unmarked" })
+    } catch (error) {
+        console.log(error, 'error in learned, user backend')
     }
 }
 
