@@ -1,4 +1,5 @@
 import { Link, useNavigate, useLocation } from 'react-router'
+const API = import.meta.env.VITE_API_URL;
 
 function Navbar() {
     const navigate = useNavigate()
@@ -15,7 +16,7 @@ function Navbar() {
 
     const logout = async () => {
         try {
-            const response = await fetch('http://localhost:3000/user/logout', {
+            const response = await fetch(`${API}/user/logout`, {
                 method: 'GET',
                 credentials: 'include'
             })

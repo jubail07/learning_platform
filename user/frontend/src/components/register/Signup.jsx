@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import '../../public/register.css'
 import { useNavigate } from 'react-router'
+const API = import.meta.env.VITE_API_URL;
 
 function Signup() {
     const [username, setUserName] = useState('')
@@ -10,7 +11,7 @@ function Signup() {
 
     const formSubmit = async (e) => {
         e.preventDefault()
-        const request = await fetch(`http://localhost:3000/signup`, {
+        const request = await fetch(`${API}/signup`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

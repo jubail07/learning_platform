@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router'
 import { useEffect, useState } from 'react'
 import '../../public/dashboard.css'
+const API = import.meta.env.VITE_API_URL;
 
 function Classes() {
     const { id, classId } = useParams()
@@ -11,7 +12,7 @@ function Classes() {
     useEffect(() => {
         const fetchclass = async () => {
             try {
-                const request = await fetch(`http://localhost:3000/user/${id}`)
+                const request = await fetch(`${API}/user/${id}`)
                 const response = await request.json()
 
                 setClasses(response)
@@ -37,7 +38,7 @@ function Classes() {
     const markLearned = async (classId, status) => {
         try {
             const newLearned = !status
-            const response = await fetch(`http://localhost:3000/user/${id}/learned/${classId}`, {
+            const response = await fetch(`${API}/user/${id}/learned/${classId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ learned: newLearned })

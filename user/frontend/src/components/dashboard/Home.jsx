@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import "../../public/dashboard.css";
 import CourseCard from "./CourseCard";
 import { motion } from "framer-motion"
+const API = import.meta.env.VITE_API_URL;
 
 function Home() {
     const [courses, setCourses] = useState([]);
@@ -12,7 +13,7 @@ function Home() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const request = await fetch(`http://localhost:3000/user`, {
+                const request = await fetch(`${API}/user`, {
                     method: "GET",
                     credentials: "include",
                 });
