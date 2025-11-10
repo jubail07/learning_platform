@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client'
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router'
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 import Signup from './components/register/Signup'
 import Login from './components/register/Login'
 import Home from './components/dashboard/Home'
