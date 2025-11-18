@@ -3,7 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const cors = require('cors')
-app.use(cors({ origin: ['http://localhost:5173', 'https://learning-platform-1-8jax.onrender.com'], credentials: true }))
+app.use(cors({ origin: ['http://localhost:5173', process.env.FRONTEND_URL], credentials: true, methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],}))
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
