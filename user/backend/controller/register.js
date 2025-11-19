@@ -33,7 +33,7 @@ exports.Login = async (req, res) => {
             return res.json({ msg: 'invalid, please try again' })
         }
         const token = createJWT(user)
-        res.cookie('userToken', token, { httpOnly: true })
+        res.cookie('userToken', token, { httpOnly: true, secure:true, sameSite:"none" })
         return res.json(user)
     } catch (error) {
         console.log(error, 'error in user login')
